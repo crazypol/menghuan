@@ -5,6 +5,8 @@ public sealed class TrackerData
     public TrackerSettings Settings { get; set; } = new();
     public List<DailyRecord> DailyRecords { get; set; } = [];
     public List<PriceRecord> PriceRecords { get; set; } = [];
+    public List<ServiceOrder> ServiceOrders { get; set; } = [];
+    public List<InventoryItem> InventoryItems { get; set; } = [];
 }
 
 public sealed class TrackerSettings
@@ -44,4 +46,24 @@ public sealed class PriceRecord
     public decimal TemporaryCharm { get; set; }
     public decimal StoryService { get; set; }
     public string Note { get; set; } = "";
+}
+
+public sealed class ServiceOrder
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public DateTime Date { get; set; } = DateTime.Today;
+    public string Title { get; set; } = "";
+    public decimal Amount { get; set; }
+    public string Note { get; set; } = "";
+}
+
+public sealed class InventoryItem
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; } = "";
+    public decimal Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public string Note { get; set; } = "";
+
+    public decimal TotalValue => Quantity * UnitPrice;
 }

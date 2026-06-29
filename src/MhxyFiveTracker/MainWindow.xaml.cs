@@ -11,11 +11,15 @@ public partial class MainWindow : Window
 {
     private readonly DataStore _dataStore = new();
     private TrackerData _data = new();
+    private readonly List<Grid> _pages = [];
 
     public MainWindow()
     {
         InitializeComponent();
+        _pages.AddRange([OverviewPage, DailyPage, PricesPage, ServicesPage, InventoryPage, SettingsPage]);
         _data = _dataStore.Load();
+        LoadSettingsIntoForm();
+        ServiceDateInput.SelectedDate = DateTime.Today;
         LoadLatestRecordIntoForm();
         RefreshUi();
     }
@@ -89,6 +93,147 @@ public partial class MainWindow : Window
         RefreshUi();
     }
 
+    private void Navigate_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button || button.Tag is not string pageName)
+        {
+            return;
+        }
+
+        ShowPage(pageName);
+    }
+
+    private void ShowPage(string pageName)
+    {
+        foreach (var page in _pages)
+        {
+            page.Visibility = Visibility.Collapsed;
+        }
+
+        var selectedPage = pageName switch
+        {
+            "Daily" => DailyPage,
+            "Prices" => PricesPage,
+            "Services" => ServicesPage,
+            "Inventory" => InventoryPage,
+            "Settings" => SettingsPage,
+            _ => OverviewPage
+        };
+
+        selectedPage.Visibility = Visibility.Visible;
+    }
+
+    private void SaveService_Click(object sender, RoutedEventArgs e)
+    {
+        if (!TryReadDecimal(ServiceAmountInput, "服务单金额", out var amount, showError: true))
+        {
+            return;
+        }
+
+        var title = ServiceTitleInput.Text.Trim();
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            MessageBox.Show(this, "服务名称不能为空。", "输入有误", MessageBoxButton.OK, MessageBoxImage.Warning);
+            ServiceTitleInput.Focus();
+            return;
+        }
+
+        _data.ServiceOrders.Add(new ServiceOrder
+        {
+            Date = ServiceDateInput.SelectedDate ?? DateTime.Today,
+            Title = title,
+            Amount = amount,
+            Note = ServiceNoteInput.Text.Trim()
+        });
+
+        _dataStore.Save(_data);
+        RefreshUi();
+    }
+
+    private void DeleteService_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button || button.Tag is not Guid id)
+        {
+            return;
+        }
+
+        var item = _data.ServiceOrders.FirstOrDefault(order => order.Id == id);
+        if (item is null)
+        {
+            return;
+        }
+
+        _data.ServiceOrders.Remove(item);
+        _dataStore.Save(_data);
+        RefreshUi();
+    }
+
+    private void SaveInventory_Click(object sender, RoutedEventArgs e)
+    {
+        if (!TryReadDecimal(InventoryQuantityInput, "库存数量", out var quantity, showError: true) ||
+            !TryReadDecimal(InventoryUnitPriceInput, "库存单价", out var unitPrice, showError: true))
+        {
+            return;
+        }
+
+        var name = InventoryNameInput.Text.Trim();
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            MessageBox.Show(this, "库存物品名称不能为空。", "输入有误", MessageBoxButton.OK, MessageBoxImage.Warning);
+            InventoryNameInput.Focus();
+            return;
+        }
+
+        _data.InventoryItems.Add(new InventoryItem
+        {
+            Name = name,
+            Quantity = quantity,
+            UnitPrice = unitPrice,
+            Note = InventoryNoteInput.Text.Trim()
+        });
+
+        _dataStore.Save(_data);
+        RefreshUi();
+    }
+
+    private void DeleteInventory_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button || button.Tag is not Guid id)
+        {
+            return;
+        }
+
+        var item = _data.InventoryItems.FirstOrDefault(inventory => inventory.Id == id);
+        if (item is null)
+        {
+            return;
+        }
+
+        _data.InventoryItems.Remove(item);
+        _dataStore.Save(_data);
+        RefreshUi();
+    }
+
+    private void SaveSettings_Click(object sender, RoutedEventArgs e)
+    {
+        if (!TryReadDecimal(InitialInvestmentInput, "初始投入", out var initialInvestment, showError: true) ||
+            !TryReadDecimal(PaybackTargetInput, "目标回本金额", out var paybackTarget, showError: true))
+        {
+            return;
+        }
+
+        _data.Settings.ServerName = string.IsNullOrWhiteSpace(ServerNameInput.Text)
+            ? "未命名服务器"
+            : ServerNameInput.Text.Trim();
+        _data.Settings.StartDate = StartDateInput.SelectedDate ?? DateTime.Today;
+        _data.Settings.InitialInvestment = initialInvestment;
+        _data.Settings.PaybackTarget = paybackTarget;
+
+        _dataStore.Save(_data);
+        RefreshUi();
+        MessageBox.Show(this, "设置已保存。", "梦幻五开收益记录器", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
     private void Export_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new SaveFileDialog
@@ -141,7 +286,10 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (imported.DailyRecords.Count == 0 && imported.PriceRecords.Count == 0)
+        if (imported.DailyRecords.Count == 0 &&
+            imported.PriceRecords.Count == 0 &&
+            imported.ServiceOrders.Count == 0 &&
+            imported.InventoryItems.Count == 0)
         {
             MessageBox.Show(this, "导入文件没有日报或物价记录，已取消导入。", "导入失败", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
@@ -150,6 +298,7 @@ public partial class MainWindow : Window
         var backupPath = _dataStore.BackupCurrentDataFile("before-import");
         _data = imported;
         _dataStore.Save(_data);
+        LoadSettingsIntoForm();
         LoadLatestRecordIntoForm();
         RefreshUi();
         var backupMessage = backupPath is null ? "" : $"\n已备份原数据：{backupPath}";
@@ -271,6 +420,7 @@ public partial class MainWindow : Window
         if (latest is null)
         {
             DateInput.SelectedDate = DateTime.Today;
+            LoadLatestPriceIntoForm(DateTime.Today);
             return;
         }
 
@@ -288,10 +438,12 @@ public partial class MainWindow : Window
     {
         var orderedRecords = _data.DailyRecords.OrderByDescending(item => item.Date).ToList();
         var latest = orderedRecords.FirstOrDefault();
-        var totalNet = _data.DailyRecords.Sum(item => item.NetProfit) - _data.Settings.InitialInvestment;
+        var serviceTotal = _data.ServiceOrders.Sum(item => item.Amount);
+        var inventoryTotal = _data.InventoryItems.Sum(item => item.TotalValue);
+        var totalNet = _data.DailyRecords.Sum(item => item.NetProfit) + serviceTotal + inventoryTotal - _data.Settings.InitialInvestment;
         var paybackProgress = _data.Settings.PaybackTarget <= 0
             ? 0
-            : Math.Clamp(_data.DailyRecords.Sum(item => item.NetProfit) / _data.Settings.PaybackTarget * 100m, 0m, 999m);
+            : Math.Clamp((_data.DailyRecords.Sum(item => item.NetProfit) + serviceTotal + inventoryTotal) / _data.Settings.PaybackTarget * 100m, 0m, 999m);
         var todayPreview = TryBuildRecordFromForm(out var parsedPreview, showError: false)
             ? parsedPreview
             : new DailyRecord();
@@ -310,8 +462,46 @@ public partial class MainWindow : Window
             Currency(item.Expense),
             Currency(item.NetProfit),
             Currency(item.HourlyProfit))).ToList();
+        DailyRecordsGrid.ItemsSource = RecordsGrid.ItemsSource;
+        PriceRecordsGrid.ItemsSource = _data.PriceRecords
+            .OrderByDescending(item => item.Date)
+            .Select(item => new PriceRecordRow(
+                item.Date.ToString("MM-dd", CultureInfo.InvariantCulture),
+                Currency(item.Gem),
+                Currency(item.FiveTreasure),
+                Currency(item.Token),
+                Currency(item.StoryService)))
+            .ToList();
+        ServiceOrdersGrid.ItemsSource = _data.ServiceOrders
+            .OrderByDescending(item => item.Date)
+            .Select(item => new ServiceOrderRow(
+                item.Id,
+                item.Date.ToString("MM-dd", CultureInfo.InvariantCulture),
+                item.Title,
+                Currency(item.Amount),
+                item.Note))
+            .ToList();
+        InventoryGrid.ItemsSource = _data.InventoryItems
+            .OrderBy(item => item.Name)
+            .Select(item => new InventoryRow(
+                item.Id,
+                item.Name,
+                item.Quantity.ToString("0.##", CultureInfo.InvariantCulture),
+                Currency(item.UnitPrice),
+                Currency(item.TotalValue),
+                item.Note))
+            .ToList();
+        InventoryTotalText.Text = $"库存总估值：{Currency(inventoryTotal)}";
 
         RefreshPriceCards(latest?.Date ?? DateTime.Today);
+    }
+
+    private void LoadSettingsIntoForm()
+    {
+        ServerNameInput.Text = _data.Settings.ServerName;
+        StartDateInput.SelectedDate = _data.Settings.StartDate;
+        InitialInvestmentInput.Text = _data.Settings.InitialInvestment.ToString("0.##", CultureInfo.InvariantCulture);
+        PaybackTargetInput.Text = _data.Settings.PaybackTarget.ToString("0.##", CultureInfo.InvariantCulture);
     }
 
     private void LoadLatestPriceIntoForm(DateTime date)
@@ -389,4 +579,7 @@ public partial class MainWindow : Window
     }
 
     public sealed record DailyRecordRow(Guid Id, string DateText, string IncomeText, string ExpenseText, string NetText, string HourlyText);
+    public sealed record PriceRecordRow(string DateText, string GemText, string FiveTreasureText, string TokenText, string StoryServiceText);
+    public sealed record ServiceOrderRow(Guid Id, string DateText, string Title, string AmountText, string Note);
+    public sealed record InventoryRow(Guid Id, string Name, string QuantityText, string UnitPriceText, string TotalValueText, string Note);
 }

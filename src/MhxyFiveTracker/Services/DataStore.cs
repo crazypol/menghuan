@@ -153,6 +153,8 @@ public sealed class DataStore
         data.Settings ??= new TrackerSettings();
         data.DailyRecords ??= [];
         data.PriceRecords ??= [];
+        data.ServiceOrders ??= [];
+        data.InventoryItems ??= [];
         return data;
     }
 }
