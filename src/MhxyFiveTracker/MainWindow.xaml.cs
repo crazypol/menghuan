@@ -468,8 +468,13 @@ public partial class MainWindow : Window
             .Select(item => new PriceRecordRow(
                 item.Date.ToString("MM-dd", CultureInfo.InvariantCulture),
                 Currency(item.Gem),
+                Currency(item.BeastBook),
                 Currency(item.FiveTreasure),
                 Currency(item.Token),
+                Currency(item.Equipment),
+                Currency(item.Flower),
+                Currency(item.Instrument),
+                Currency(item.TemporaryCharm),
                 Currency(item.StoryService)))
             .ToList();
         ServiceOrdersGrid.ItemsSource = _data.ServiceOrders
@@ -579,7 +584,17 @@ public partial class MainWindow : Window
     }
 
     public sealed record DailyRecordRow(Guid Id, string DateText, string IncomeText, string ExpenseText, string NetText, string HourlyText);
-    public sealed record PriceRecordRow(string DateText, string GemText, string FiveTreasureText, string TokenText, string StoryServiceText);
+    public sealed record PriceRecordRow(
+        string DateText,
+        string GemText,
+        string BeastBookText,
+        string FiveTreasureText,
+        string TokenText,
+        string EquipmentText,
+        string FlowerText,
+        string InstrumentText,
+        string CharmText,
+        string StoryServiceText);
     public sealed record ServiceOrderRow(Guid Id, string DateText, string Title, string AmountText, string Note);
     public sealed record InventoryRow(Guid Id, string Name, string QuantityText, string UnitPriceText, string TotalValueText, string Note);
 }

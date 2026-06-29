@@ -64,6 +64,19 @@
       <Setter Property="FontSize" Value="15" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
+    <Style x:Key="PriceTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
+      <Setter Property="Height" Value="38" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Padding" Value="10,6" />
+    </Style>
+    <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+      <Setter Property="BorderBrush" Value="#DED7FF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Background" Value="#FFFEFE" />
+      <Setter Property="Padding" Value="8,6" />
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
     <Style x:Key="PrimaryButtonStyle" TargetType="Button">
       <Setter Property="Background" Value="{StaticResource PrimaryButtonBrush}" />
       <Setter Property="Foreground" Value="White" />
@@ -230,15 +243,15 @@
                   <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
                   <TextBlock Grid.Row="0" Text="今日物价快照" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextBrush}" Margin="0,0,0,10" />
                   <UniformGrid Grid.Row="1" Columns="3" Rows="3">
-                    <Border CornerRadius="8" Padding="9" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8"><StackPanel><TextBlock Text="宝石" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="GemInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8"><StackPanel><TextBlock Text="低兽决" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="BeastBookInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8"><StackPanel><TextBlock Text="五宝" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FiveTreasureInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8"><StackPanel><TextBlock Text="牌子" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="TokenInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8"><StackPanel><TextBlock Text="环装" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="EquipmentInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8"><StackPanel><TextBlock Text="临时符" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="CharmInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,0"><StackPanel><TextBlock Text="花卉" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FlowerInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,0"><StackPanel><TextBlock Text="乐器" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="InstrumentInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
-                    <Border CornerRadius="8" Padding="9" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,0"><StackPanel><TextBlock Text="剧情服务" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="StoryServiceInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8"><StackPanel><TextBlock Text="宝石" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="GemInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8"><StackPanel><TextBlock Text="低兽决" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="BeastBookInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8"><StackPanel><TextBlock Text="五宝" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FiveTreasureInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8"><StackPanel><TextBlock Text="牌子" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="TokenInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8"><StackPanel><TextBlock Text="环装" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="EquipmentInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8"><StackPanel><TextBlock Text="临时符" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="CharmInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,0"><StackPanel><TextBlock Text="花卉" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FlowerInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,0"><StackPanel><TextBlock Text="乐器" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="InstrumentInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
+                    <Border CornerRadius="8" Padding="8" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,0"><StackPanel><TextBlock Text="剧情服务" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="StoryServiceInput" Style="{StaticResource PriceTextBoxStyle}" Margin="0,5,0,0" /></StackPanel></Border>
                   </UniformGrid>
                 </Grid>
               </Border>
@@ -274,8 +287,13 @@
                 <DataGrid.Columns>
                   <DataGridTextColumn Header="日期" Binding="{Binding DateText}" Width="*" />
                   <DataGridTextColumn Header="宝石" Binding="{Binding GemText}" Width="*" />
+                  <DataGridTextColumn Header="低兽决" Binding="{Binding BeastBookText}" Width="*" />
                   <DataGridTextColumn Header="五宝" Binding="{Binding FiveTreasureText}" Width="*" />
                   <DataGridTextColumn Header="牌子" Binding="{Binding TokenText}" Width="*" />
+                  <DataGridTextColumn Header="环装" Binding="{Binding EquipmentText}" Width="*" />
+                  <DataGridTextColumn Header="花卉" Binding="{Binding FlowerText}" Width="*" />
+                  <DataGridTextColumn Header="乐器" Binding="{Binding InstrumentText}" Width="*" />
+                  <DataGridTextColumn Header="临时符" Binding="{Binding CharmText}" Width="*" />
                   <DataGridTextColumn Header="剧情服务" Binding="{Binding StoryServiceText}" Width="*" />
                 </DataGrid.Columns>
               </DataGrid>
@@ -313,7 +331,21 @@
           <Border Grid.Row="0" Style="{StaticResource PanelStyle}" Margin="0,0,0,16">
             <Grid>
               <Grid.ColumnDefinitions><ColumnDefinition Width="2*" /><ColumnDefinition Width="120" /><ColumnDefinition Width="140" /><ColumnDefinition Width="2*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-              <TextBox x:Name="InventoryNameInput" Grid.Column="0" Style="{StaticResource TextBoxStyle}" Margin="0,0,10,0" Text="五宝" />
+              <ComboBox x:Name="InventoryNameInput" Grid.Column="0" Style="{StaticResource ComboBoxStyle}" Margin="0,0,10,0" IsEditable="True" Text="五宝">
+                <ComboBoxItem Content="宝石" />
+                <ComboBoxItem Content="低兽决" />
+                <ComboBoxItem Content="五宝" />
+                <ComboBoxItem Content="牌子" />
+                <ComboBoxItem Content="环装" />
+                <ComboBoxItem Content="花卉" />
+                <ComboBoxItem Content="乐器" />
+                <ComboBoxItem Content="临时符" />
+                <ComboBoxItem Content="剧情服务" />
+                <ComboBoxItem Content="金柳露" />
+                <ComboBoxItem Content="二药" />
+                <ComboBoxItem Content="三级药" />
+                <ComboBoxItem Content="烹饪" />
+              </ComboBox>
               <TextBox x:Name="InventoryQuantityInput" Grid.Column="1" Style="{StaticResource TextBoxStyle}" Margin="0,0,10,0" Text="1" />
               <TextBox x:Name="InventoryUnitPriceInput" Grid.Column="2" Style="{StaticResource TextBoxStyle}" Margin="0,0,10,0" Text="72" />
               <TextBox x:Name="InventoryNoteInput" Grid.Column="3" Style="{StaticResource TextBoxStyle}" Margin="0,0,10,0" Text="库存备注" />
