@@ -12,6 +12,7 @@ public partial class MainWindow : Window
     private readonly DataStore _dataStore = new();
     private TrackerData _data = new();
     private readonly List<Grid> _pages = [];
+    private readonly List<LootItem> _currentLootItems = [];
 
     public MainWindow()
     {
@@ -37,6 +38,16 @@ public partial class MainWindow : Window
         }
 
         var existing = _data.DailyRecords.FirstOrDefault(item => item.Date.Date == record.Date.Date);
+        record.LootItems = _currentLootItems
+            .Select(item => new LootItem
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Quantity = item.Quantity,
+                UnitPrice = item.UnitPrice,
+                Note = item.Note
+            })
+            .ToList();
 
         if (existing is null)
         {
@@ -50,6 +61,7 @@ public partial class MainWindow : Window
             existing.ServiceIncome = record.ServiceIncome;
             existing.Expense = record.Expense;
             existing.Note = record.Note;
+            existing.LootItems = record.LootItems;
         }
 
         var existingPrice = _data.PriceRecords.FirstOrDefault(item => item.Date.Date == priceRecord.Date.Date);
@@ -73,6 +85,51 @@ public partial class MainWindow : Window
 
         _dataStore.Save(_data);
         RefreshUi();
+    }
+
+    private void AddLootItem_Click(object sender, RoutedEventArgs e)
+    {
+        var name = LootNameInput.Text.Trim();
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            MessageBox.Show(this, "获得物品名称不能为空。", "输入有误", MessageBoxButton.OK, MessageBoxImage.Warning);
+            LootNameInput.Focus();
+            return;
+        }
+
+        if (!TryReadDecimal(LootQuantityInput, "物品数量", out var quantity, showError: true) ||
+            !TryReadDecimal(LootUnitPriceInput, "物品单价", out var unitPrice, showError: true))
+        {
+            return;
+        }
+
+        _currentLootItems.Add(new LootItem
+        {
+            Name = name,
+            Quantity = quantity,
+            UnitPrice = unitPrice
+        });
+
+        RefreshLootItems();
+        RefreshPreviewTotals();
+    }
+
+    private void DeleteLootItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button || button.Tag is not Guid id)
+        {
+            return;
+        }
+
+        var item = _currentLootItems.FirstOrDefault(loot => loot.Id == id);
+        if (item is null)
+        {
+            return;
+        }
+
+        _currentLootItems.Remove(item);
+        RefreshLootItems();
+        RefreshPreviewTotals();
     }
 
     private void DeleteRecord_Click(object sender, RoutedEventArgs e)
@@ -326,11 +383,12 @@ public partial class MainWindow : Window
         if (record is not null)
         {
             OnlineHoursInput.Text = record.OnlineHours.ToString("0.##", CultureInfo.InvariantCulture);
-            CashIncomeInput.Text = record.CashIncome.ToString("0.##", CultureInfo.InvariantCulture);
-            MaterialValueInput.Text = record.MaterialValue.ToString("0.##", CultureInfo.InvariantCulture);
+            CashIncomeInput.Text = "0";
+            MaterialValueInput.Text = "0";
             ServiceIncomeInput.Text = record.ServiceIncome.ToString("0.##", CultureInfo.InvariantCulture);
             ExpenseInput.Text = record.Expense.ToString("0.##", CultureInfo.InvariantCulture);
             NoteInput.Text = record.Note;
+            LoadLootItems(record.LootItems);
         }
         else
         {
@@ -340,6 +398,7 @@ public partial class MainWindow : Window
             ServiceIncomeInput.Text = "0";
             ExpenseInput.Text = "0";
             NoteInput.Text = "";
+            LoadLootItems([]);
         }
 
         LoadLatestPriceIntoForm(selectedDate);
@@ -366,8 +425,6 @@ public partial class MainWindow : Window
         };
 
         if (!TryReadDecimal(OnlineHoursInput, "在线小时", out var onlineHours, showError) ||
-            !TryReadDecimal(CashIncomeInput, "现金收入", out var cashIncome, showError) ||
-            !TryReadDecimal(MaterialValueInput, "物资估值", out var materialValue, showError) ||
             !TryReadDecimal(ServiceIncomeInput, "服务单", out var serviceIncome, showError) ||
             !TryReadDecimal(ExpenseInput, "支出", out var expense, showError))
         {
@@ -375,10 +432,11 @@ public partial class MainWindow : Window
         }
 
         record.OnlineHours = onlineHours;
-        record.CashIncome = cashIncome;
-        record.MaterialValue = materialValue;
+        record.CashIncome = 0;
+        record.MaterialValue = 0;
         record.ServiceIncome = serviceIncome;
         record.Expense = expense;
+        record.LootItems = _currentLootItems;
         return true;
     }
 
@@ -420,17 +478,19 @@ public partial class MainWindow : Window
         if (latest is null)
         {
             DateInput.SelectedDate = DateTime.Today;
+            LoadLootItems([]);
             LoadLatestPriceIntoForm(DateTime.Today);
             return;
         }
 
         DateInput.SelectedDate = latest.Date;
         OnlineHoursInput.Text = latest.OnlineHours.ToString("0.##", CultureInfo.InvariantCulture);
-        CashIncomeInput.Text = latest.CashIncome.ToString("0.##", CultureInfo.InvariantCulture);
-        MaterialValueInput.Text = latest.MaterialValue.ToString("0.##", CultureInfo.InvariantCulture);
+        CashIncomeInput.Text = "0";
+        MaterialValueInput.Text = "0";
         ServiceIncomeInput.Text = latest.ServiceIncome.ToString("0.##", CultureInfo.InvariantCulture);
         ExpenseInput.Text = latest.Expense.ToString("0.##", CultureInfo.InvariantCulture);
         NoteInput.Text = latest.Note;
+        LoadLootItems(latest.LootItems);
         LoadLatestPriceIntoForm(latest.Date);
     }
 
@@ -497,8 +557,36 @@ public partial class MainWindow : Window
                 item.Note))
             .ToList();
         InventoryTotalText.Text = $"库存总估值：{Currency(inventoryTotal)}";
+        RefreshLootItems();
 
         RefreshPriceCards(latest?.Date ?? DateTime.Today);
+    }
+
+    private void LoadLootItems(IEnumerable<LootItem> items)
+    {
+        _currentLootItems.Clear();
+        _currentLootItems.AddRange(items.Select(item => new LootItem
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Quantity = item.Quantity,
+            UnitPrice = item.UnitPrice,
+            Note = item.Note
+        }));
+        RefreshLootItems();
+    }
+
+    private void RefreshLootItems()
+    {
+        LootItemsGrid.ItemsSource = _currentLootItems
+            .Select(item => new LootItemRow(
+                item.Id,
+                item.Name,
+                item.Quantity.ToString("0.##", CultureInfo.InvariantCulture),
+                Currency(item.UnitPrice),
+                Currency(item.TotalValue)))
+            .ToList();
+        LootTotalText.Text = $"物品估值：{Currency(_currentLootItems.Sum(item => item.TotalValue))}";
     }
 
     private void LoadSettingsIntoForm()
@@ -584,6 +672,7 @@ public partial class MainWindow : Window
     }
 
     public sealed record DailyRecordRow(Guid Id, string DateText, string IncomeText, string ExpenseText, string NetText, string HourlyText);
+    public sealed record LootItemRow(Guid Id, string Name, string QuantityText, string UnitPriceText, string TotalValueText);
     public sealed record PriceRecordRow(
         string DateText,
         string GemText,

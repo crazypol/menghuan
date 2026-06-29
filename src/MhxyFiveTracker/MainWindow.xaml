@@ -195,6 +195,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                   </Grid.RowDefinitions>
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -204,15 +205,47 @@
                   <DatePicker x:Name="DateInput" Grid.Row="1" Grid.Column="0" Margin="0,6,6,10" SelectedDateChanged="DateInput_SelectedDateChanged" />
                   <TextBlock Grid.Row="0" Grid.Column="1" Text="在线小时" Style="{StaticResource SmallLabelStyle}" />
                   <TextBox x:Name="OnlineHoursInput" Grid.Row="1" Grid.Column="1" Margin="6,6,0,10" Style="{StaticResource TextBoxStyle}" Text="5.5" TextChanged="Input_TextChanged" />
-                  <TextBlock Grid.Row="2" Grid.Column="0" Text="现金收入" Style="{StaticResource SmallLabelStyle}" />
-                  <TextBox x:Name="CashIncomeInput" Grid.Row="3" Grid.Column="0" Margin="0,6,6,10" Style="{StaticResource TextBoxStyle}" Text="186" TextChanged="Input_TextChanged" />
-                  <TextBlock Grid.Row="2" Grid.Column="1" Text="物资估值" Style="{StaticResource SmallLabelStyle}" />
-                  <TextBox x:Name="MaterialValueInput" Grid.Row="3" Grid.Column="1" Margin="6,6,0,10" Style="{StaticResource TextBoxStyle}" Text="94" TextChanged="Input_TextChanged" />
-                  <TextBlock Grid.Row="4" Grid.Column="0" Text="服务单" Style="{StaticResource SmallLabelStyle}" />
-                  <TextBox x:Name="ServiceIncomeInput" Grid.Row="5" Grid.Column="0" Margin="0,6,6,10" Style="{StaticResource TextBoxStyle}" Text="60" TextChanged="Input_TextChanged" />
-                  <TextBlock Grid.Row="4" Grid.Column="1" Text="支出" Style="{StaticResource SmallLabelStyle}" />
-                  <TextBox x:Name="ExpenseInput" Grid.Row="5" Grid.Column="1" Margin="6,6,0,10" Style="{StaticResource TextBoxStyle}" Text="42" TextChanged="Input_TextChanged" />
-                  <StackPanel Grid.Row="6" Grid.ColumnSpan="2"><TextBlock Text="备注" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="NoteInput" Height="82" Margin="0,6,0,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Style="{StaticResource TextBoxStyle}" Text="抓鬼 2 轮，剧情服务 1 单，宝石价格继续跌。" /></StackPanel>
+                  <TextBox x:Name="CashIncomeInput" Visibility="Collapsed" Text="0" />
+                  <TextBox x:Name="MaterialValueInput" Visibility="Collapsed" Text="0" />
+                  <TextBlock Grid.Row="2" Grid.Column="0" Text="获得物品" Style="{StaticResource SmallLabelStyle}" />
+                  <ComboBox x:Name="LootNameInput" Grid.Row="3" Grid.Column="0" Style="{StaticResource ComboBoxStyle}" Margin="0,6,6,10" IsEditable="True" Text="五宝">
+                    <ComboBoxItem Content="宝石" />
+                    <ComboBoxItem Content="低兽决" />
+                    <ComboBoxItem Content="五宝" />
+                    <ComboBoxItem Content="牌子" />
+                    <ComboBoxItem Content="环装" />
+                    <ComboBoxItem Content="花卉" />
+                    <ComboBoxItem Content="乐器" />
+                    <ComboBoxItem Content="临时符" />
+                    <ComboBoxItem Content="剧情服务" />
+                    <ComboBoxItem Content="金柳露" />
+                    <ComboBoxItem Content="二药" />
+                    <ComboBoxItem Content="三级药" />
+                    <ComboBoxItem Content="烹饪" />
+                  </ComboBox>
+                  <TextBlock Grid.Row="2" Grid.Column="1" Text="数量 / 单价" Style="{StaticResource SmallLabelStyle}" />
+                  <Grid Grid.Row="3" Grid.Column="1" Margin="6,6,0,10">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="1*" /><ColumnDefinition Width="1*" /></Grid.ColumnDefinitions>
+                    <TextBox x:Name="LootQuantityInput" Grid.Column="0" Style="{StaticResource TextBoxStyle}" Margin="0,0,4,0" Text="1" />
+                    <TextBox x:Name="LootUnitPriceInput" Grid.Column="1" Style="{StaticResource TextBoxStyle}" Margin="4,0,0,0" Text="72" />
+                  </Grid>
+                  <Button Grid.Row="4" Grid.Column="0" Content="添加物品" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,10" Click="AddLootItem_Click" />
+                  <TextBlock Grid.Row="4" Grid.Column="1" x:Name="LootTotalText" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,10" />
+                  <DataGrid x:Name="LootItemsGrid" Grid.Row="5" Grid.ColumnSpan="2" Height="118" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,10">
+                    <DataGrid.Columns>
+                      <DataGridTextColumn Header="物品" Binding="{Binding Name}" Width="*" />
+                      <DataGridTextColumn Header="数量" Binding="{Binding QuantityText}" Width="*" />
+                      <DataGridTextColumn Header="单价" Binding="{Binding UnitPriceText}" Width="*" />
+                      <DataGridTextColumn Header="估值" Binding="{Binding TotalValueText}" Width="*" />
+                      <DataGridTemplateColumn Header="操作" Width="60"><DataGridTemplateColumn.CellTemplate><DataTemplate><Button Content="删除" Tag="{Binding Id}" Click="DeleteLootItem_Click" /></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                  </DataGrid>
+                  <Grid Grid.Row="6" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="1*" /><ColumnDefinition Width="1*" /></Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,0,6,0"><TextBlock Text="服务单" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="ServiceIncomeInput" Margin="0,6,0,10" Style="{StaticResource TextBoxStyle}" Text="0" TextChanged="Input_TextChanged" /></StackPanel>
+                    <StackPanel Grid.Column="1" Margin="6,0,0,0"><TextBlock Text="支出" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="ExpenseInput" Margin="0,6,0,10" Style="{StaticResource TextBoxStyle}" Text="42" TextChanged="Input_TextChanged" /></StackPanel>
+                  </Grid>
+                  <StackPanel Grid.Row="7" Grid.ColumnSpan="2"><TextBlock Text="备注" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="NoteInput" Height="72" Margin="0,6,0,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Style="{StaticResource TextBoxStyle}" Text="抓鬼 2 轮，剧情服务 1 单，宝石价格继续跌。" /></StackPanel>
                 </Grid>
               </Grid>
             </Border>

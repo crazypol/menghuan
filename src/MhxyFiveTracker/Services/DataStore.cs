@@ -101,31 +101,46 @@ public sealed class DataStore
                 {
                     Date = today,
                     OnlineHours = 5.5m,
-                    CashIncome = 186m,
-                    MaterialValue = 94m,
+                    CashIncome = 0m,
+                    MaterialValue = 0m,
                     ServiceIncome = 60m,
                     Expense = 42m,
-                    Note = "抓鬼 2 轮，剧情服务 1 单，宝石价格继续跌。"
+                    Note = "抓鬼 2 轮，剧情服务 1 单，宝石价格继续跌。",
+                    LootItems =
+                    [
+                        new LootItem { Name = "五宝", Quantity = 1m, UnitPrice = 72m },
+                        new LootItem { Name = "宝石", Quantity = 4m, UnitPrice = 4.8m }
+                    ]
                 },
                 new DailyRecord
                 {
                     Date = today.AddDays(-1),
                     OnlineHours = 4.2m,
-                    CashIncome = 128m,
-                    MaterialValue = 80m,
+                    CashIncome = 0m,
+                    MaterialValue = 0m,
                     ServiceIncome = 20m,
                     Expense = 30m,
-                    Note = "周末活动收益高。"
+                    Note = "周末活动收益高。",
+                    LootItems =
+                    [
+                        new LootItem { Name = "低兽决", Quantity = 2m, UnitPrice = 18m },
+                        new LootItem { Name = "环装", Quantity = 3m, UnitPrice = 6.5m }
+                    ]
                 },
                 new DailyRecord
                 {
                     Date = today.AddDays(-2),
                     OnlineHours = 3.8m,
-                    CashIncome = 92m,
-                    MaterialValue = 50m,
+                    CashIncome = 0m,
+                    MaterialValue = 0m,
                     ServiceIncome = 0m,
                     Expense = 96m,
-                    Note = "补装备，收益偏低。"
+                    Note = "补装备，收益偏低。",
+                    LootItems =
+                    [
+                        new LootItem { Name = "花卉", Quantity = 2m, UnitPrice = 12m },
+                        new LootItem { Name = "乐器", Quantity = 1m, UnitPrice = 9m }
+                    ]
                 }
             ],
             PriceRecords =
@@ -152,6 +167,10 @@ public sealed class DataStore
         data ??= new TrackerData();
         data.Settings ??= new TrackerSettings();
         data.DailyRecords ??= [];
+        foreach (var dailyRecord in data.DailyRecords)
+        {
+            dailyRecord.LootItems ??= [];
+        }
         data.PriceRecords ??= [];
         data.ServiceOrders ??= [];
         data.InventoryItems ??= [];

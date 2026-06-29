@@ -27,10 +27,23 @@ public sealed class DailyRecord
     public decimal ServiceIncome { get; set; }
     public decimal Expense { get; set; }
     public string Note { get; set; } = "";
+    public List<LootItem> LootItems { get; set; } = [];
 
-    public decimal TotalIncome => CashIncome + MaterialValue + ServiceIncome;
+    public decimal LootValue => LootItems.Sum(item => item.TotalValue);
+    public decimal TotalIncome => LootValue + ServiceIncome;
     public decimal NetProfit => TotalIncome - Expense;
     public decimal HourlyProfit => OnlineHours <= 0 ? 0 : NetProfit / OnlineHours;
+}
+
+public sealed class LootItem
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; } = "";
+    public decimal Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public string Note { get; set; } = "";
+
+    public decimal TotalValue => Quantity * UnitPrice;
 }
 
 public sealed class PriceRecord
