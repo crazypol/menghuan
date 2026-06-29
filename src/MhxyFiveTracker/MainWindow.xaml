@@ -179,7 +179,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="日期" Style="{StaticResource SmallLabelStyle}" />
-            <DatePicker x:Name="DateInput" Grid.Row="1" Grid.Column="0" Margin="0,6,8,10" />
+            <DatePicker x:Name="DateInput" Grid.Row="1" Grid.Column="0" Margin="0,6,8,10" SelectedDateChanged="DateInput_SelectedDateChanged" />
 
             <TextBlock Grid.Row="0" Grid.Column="1" Text="在线小时" Style="{StaticResource SmallLabelStyle}" />
             <TextBox x:Name="OnlineHoursInput" Grid.Row="1" Grid.Column="1" Margin="4,6,4,10" Style="{StaticResource TextBoxStyle}" Text="5.5" TextChanged="Input_TextChanged" />
@@ -273,32 +273,32 @@
           <TextBlock Grid.Row="2" Text="今日物价快照" FontWeight="Bold" FontSize="16" Margin="0,18,0,10" />
 
           <UniformGrid Grid.Row="3" Columns="3" Rows="3">
-            <Border x:Name="GemChip" CornerRadius="8" Padding="12" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8">
-              <StackPanel><TextBlock Text="宝石" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="GemText" FontWeight="Bold" FontSize="16" /></StackPanel>
+            <Border CornerRadius="8" Padding="12" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8">
+              <StackPanel><TextBlock Text="宝石" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="GemInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8">
-              <StackPanel><TextBlock Text="低兽决" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="BeastBookText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="低兽决" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="BeastBookInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8">
-              <StackPanel><TextBlock Text="五宝" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="FiveTreasureText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="五宝" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FiveTreasureInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8">
-              <StackPanel><TextBlock Text="牌子" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="TokenText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="牌子" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="TokenInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8">
-              <StackPanel><TextBlock Text="环装" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="EquipmentText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="环装" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="EquipmentInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8">
-              <StackPanel><TextBlock Text="临时符" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="CharmText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="临时符" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="CharmInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,0">
-              <StackPanel><TextBlock Text="花卉" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="FlowerText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="花卉" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FlowerInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,0">
-              <StackPanel><TextBlock Text="乐器" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="InstrumentText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="乐器" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="InstrumentInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
             <Border CornerRadius="8" Padding="12" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,0">
-              <StackPanel><TextBlock Text="剧情服务" Style="{StaticResource SmallLabelStyle}" /><TextBlock x:Name="StoryServiceText" FontWeight="Bold" FontSize="16" /></StackPanel>
+              <StackPanel><TextBlock Text="剧情服务" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="StoryServiceInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
             </Border>
           </UniformGrid>
 

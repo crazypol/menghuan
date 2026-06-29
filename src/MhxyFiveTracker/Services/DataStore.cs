@@ -33,8 +33,18 @@ public sealed class DataStore
             return sample;
         }
 
-        var json = File.ReadAllText(DataFilePath);
-        return Normalize(JsonSerializer.Deserialize<TrackerData>(json, JsonOptions));
+        try
+        {
+            var json = File.ReadAllText(DataFilePath);
+            return Normalize(JsonSerializer.Deserialize<TrackerData>(json, JsonOptions));
+        }
+        catch (Exception ex) when (ex is JsonException or IOException or UnauthorizedAccessException)
+        {
+            BackupCurrentDataFile("invalid");
+            var empty = new TrackerData();
+            Save(empty);
+            return empty;
+        }
     }
 
     public void Save(TrackerData data)
@@ -54,6 +64,22 @@ public sealed class DataStore
     {
         var json = File.ReadAllText(path);
         return Normalize(JsonSerializer.Deserialize<TrackerData>(json, JsonOptions));
+    }
+
+    public string? BackupCurrentDataFile(string reason = "backup")
+    {
+        if (!File.Exists(DataFilePath))
+        {
+            return null;
+        }
+
+        Directory.CreateDirectory(DataDirectory);
+        var backupPath = Path.Combine(
+            DataDirectory,
+            $"data.{DateTime.Now:yyyyMMdd-HHmmss-ffff}.{reason}.json");
+
+        File.Copy(DataFilePath, backupPath, overwrite: false);
+        return backupPath;
     }
 
     private static TrackerData CreateSampleData()
