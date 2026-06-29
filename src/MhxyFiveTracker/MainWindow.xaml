@@ -99,12 +99,7 @@
 
     <Border Grid.Row="0" Background="White" BorderBrush="#DCD4FF" BorderThickness="0,0,0,1">
       <DockPanel LastChildFill="False" Margin="18,0">
-        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="#514A74" Text="梦幻五开收益记录器 - 方案 A 侧边栏" />
-        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-          <Ellipse Width="12" Height="12" Fill="#16B8A6" Margin="0,0,8,0" />
-          <Ellipse Width="12" Height="12" Fill="#FFD43B" Margin="0,0,8,0" />
-          <Ellipse Width="12" Height="12" Fill="#FF5A7A" />
-        </StackPanel>
+        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="#514A74" Text="梦幻五开收益记录器" />
       </DockPanel>
     </Border>
 
@@ -151,8 +146,6 @@
               <TextBlock x:Name="ServerSummaryText" Text="右侧集中看历史和市场变化" Style="{StaticResource SmallLabelStyle}" Margin="0,6,0,0" />
             </StackPanel>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-              <Button Content="导入" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="Import_Click" />
-              <Button Content="导出 JSON" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="Export_Click" />
               <Button Content="保存今日记录" Style="{StaticResource PrimaryButtonStyle}" Click="SaveDailyRecord_Click" />
             </StackPanel>
           </DockPanel>
@@ -354,8 +347,12 @@
               <TextBox x:Name="InitialInvestmentInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,12" />
               <TextBlock Text="目标回本金额" Style="{StaticResource SmallLabelStyle}" />
               <TextBox x:Name="PaybackTargetInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,16" />
-              <Button Content="保存设置" Style="{StaticResource PrimaryButtonStyle}" Click="SaveSettings_Click" />
-              <TextBlock Text="导入和导出仍使用右上角按钮；导入前会自动备份当前 data.json。" Style="{StaticResource SmallLabelStyle}" Margin="0,18,0,0" TextWrapping="Wrap" />
+              <StackPanel Orientation="Horizontal">
+                <Button Content="保存设置" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,8,0" Click="SaveSettings_Click" />
+                <Button Content="导入" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="Import_Click" />
+                <Button Content="导出 JSON" Style="{StaticResource SecondaryButtonStyle}" Click="Export_Click" />
+              </StackPanel>
+              <TextBlock Text="导入前会自动备份当前 data.json。" Style="{StaticResource SmallLabelStyle}" Margin="0,18,0,0" TextWrapping="Wrap" />
             </StackPanel>
           </Border>
         </Grid>
