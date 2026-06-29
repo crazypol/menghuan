@@ -2,10 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="梦幻五开收益记录器"
-        Width="1280"
-        Height="760"
-        MinWidth="1080"
-        MinHeight="680"
+        Width="1360"
+        Height="820"
+        MinWidth="1180"
+        MinHeight="720"
         Background="#F7F4FF"
         FontFamily="Microsoft YaHei UI">
   <Window.Resources>
@@ -13,8 +13,6 @@
     <SolidColorBrush x:Key="MutedBrush" Color="#6C6687" />
     <SolidColorBrush x:Key="LineBrush" Color="#E5DDFF" />
     <SolidColorBrush x:Key="PanelBrush" Color="#FFFFFF" />
-    <SolidColorBrush x:Key="GoodBrush" Color="#00A86B" />
-    <SolidColorBrush x:Key="BadBrush" Color="#F04468" />
 
     <LinearGradientBrush x:Key="PageBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
       <GradientStop Color="#FFF8E7" Offset="0" />
@@ -25,6 +23,11 @@
     <LinearGradientBrush x:Key="PrimaryButtonBrush" StartPoint="0,0" EndPoint="1,1">
       <GradientStop Color="#7C5CFF" Offset="0" />
       <GradientStop Color="#31C7B7" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BrandBrush" StartPoint="0,0" EndPoint="1,1">
+      <GradientStop Color="#FF5A7A" Offset="0" />
+      <GradientStop Color="#FFD43B" Offset="1" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="MetricGreenBrush" StartPoint="0,0" EndPoint="1,1">
@@ -100,7 +103,7 @@
         <TextBlock DockPanel.Dock="Left"
                    VerticalAlignment="Center"
                    Foreground="#514A74"
-                   Text="梦幻五开收益记录器 - 本地数据文件" />
+                   Text="梦幻五开收益记录器 - 方案 A 侧边栏" />
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
           <Ellipse Width="12" Height="12" Fill="#16B8A6" Margin="0,0,8,0" />
           <Ellipse Width="12" Height="12" Fill="#FFD43B" Margin="0,0,8,0" />
@@ -109,206 +112,265 @@
       </DockPanel>
     </Border>
 
-    <Grid Grid.Row="1" Margin="24">
+    <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="1*" />
-        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="228" />
+        <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
 
-      <Border Grid.Column="0" Style="{StaticResource PanelStyle}" Margin="0,0,8,0">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-          </Grid.RowDefinitions>
-
-          <DockPanel Grid.Row="0" Margin="0,0,0,16">
-            <StackPanel DockPanel.Dock="Left">
-              <StackPanel Orientation="Horizontal">
-                <Border Width="8" Height="20" CornerRadius="4" Background="{StaticResource MetricPinkBrush}" Margin="0,0,8,0" />
-                <TextBlock Text="今日录入" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
+      <Border Grid.Column="0" Background="#221947" Padding="16,22">
+        <DockPanel LastChildFill="True">
+          <StackPanel DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,26">
+              <Border Width="38" Height="38" CornerRadius="9" Background="{StaticResource BrandBrush}" Margin="0,0,10,0">
+                <TextBlock Text="梦" Foreground="White" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="收益记录器" Foreground="#F8F5FF" FontWeight="Bold" FontSize="15" />
+                <TextBlock Text="畅玩服五开" Foreground="#C9C1FF" FontSize="12" Margin="0,3,0,0" />
               </StackPanel>
-              <TextBlock Text="把现金、物资、服务单、支出分开记" Style="{StaticResource SmallLabelStyle}" Margin="0,6,0,0" />
             </StackPanel>
-            <Button DockPanel.Dock="Right"
-                    Content="保存日报"
-                    Style="{StaticResource PrimaryButtonStyle}"
-                    Click="SaveDailyRecord_Click" />
-          </DockPanel>
 
-          <UniformGrid Grid.Row="1" Columns="2" Rows="2" Margin="0,0,0,16">
-            <Border CornerRadius="8" Padding="12" Background="{StaticResource MetricGreenBrush}" Margin="0,0,6,6">
-              <StackPanel>
-                <TextBlock Text="今日净收益" Foreground="#CCFFFFFF" FontSize="12" />
-                <TextBlock x:Name="TodayNetText" Text="¥0" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
-              </StackPanel>
+            <Border Background="#3B2B75" CornerRadius="8" Padding="12" Margin="0,0,0,6">
+              <TextBlock Text="总览" Foreground="White" FontWeight="Bold" />
             </Border>
-            <Border CornerRadius="8" Padding="12" Background="{StaticResource MetricBlueBrush}" Margin="6,0,0,6">
-              <StackPanel>
-                <TextBlock Text="今日小时收益" Foreground="#CCFFFFFF" FontSize="12" />
-                <TextBlock x:Name="TodayHourlyText" Text="¥0" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
-              </StackPanel>
+            <Border CornerRadius="8" Padding="12" Margin="0,0,0,6">
+              <TextBlock Text="每日记录" Foreground="#EEE9FF" />
             </Border>
-            <Border CornerRadius="8" Padding="12" Background="{StaticResource MetricPinkBrush}" Margin="0,6,6,0">
-              <StackPanel>
-                <TextBlock Text="累计净收益" Foreground="#CCFFFFFF" FontSize="12" />
-                <TextBlock x:Name="TotalNetText" Text="¥0" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
-              </StackPanel>
+            <Border CornerRadius="8" Padding="12" Margin="0,0,0,6">
+              <TextBlock Text="物价记录" Foreground="#EEE9FF" />
             </Border>
-            <Border CornerRadius="8" Padding="12" Background="{StaticResource MetricYellowBrush}" Margin="6,6,0,0">
-              <StackPanel>
-                <TextBlock Text="回本进度" Foreground="#AA271A00" FontSize="12" />
-                <TextBlock x:Name="PaybackText" Text="0%" Foreground="#271A00" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
-              </StackPanel>
+            <Border CornerRadius="8" Padding="12" Margin="0,0,0,6">
+              <TextBlock Text="服务单" Foreground="#EEE9FF" />
             </Border>
-          </UniformGrid>
+            <Border CornerRadius="8" Padding="12" Margin="0,0,0,6">
+              <TextBlock Text="库存估值" Foreground="#EEE9FF" />
+            </Border>
+            <Border CornerRadius="8" Padding="12">
+              <TextBlock Text="设置与备份" Foreground="#EEE9FF" />
+            </Border>
+          </StackPanel>
 
-          <Grid Grid.Row="2">
+          <TextBlock DockPanel.Dock="Bottom"
+                     Text="本地 JSON 保存&#x0a;导入前自动备份"
+                     Foreground="#C9C1FF"
+                     FontSize="12"
+                     LineHeight="20" />
+        </DockPanel>
+      </Border>
+
+      <Grid Grid.Column="1" Margin="26">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,14">
+          <StackPanel DockPanel.Dock="Left">
+            <TextBlock Text="今天的经营日报" FontSize="25" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
+            <TextBlock x:Name="ServerSummaryText" Text="右侧集中看历史和市场变化" Style="{StaticResource SmallLabelStyle}" Margin="0,6,0,0" />
+          </StackPanel>
+          <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+            <Button Content="导入" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="Import_Click" />
+            <Button Content="导出 JSON" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="Export_Click" />
+            <Button Content="保存今日记录" Style="{StaticResource PrimaryButtonStyle}" Click="SaveDailyRecord_Click" />
+          </StackPanel>
+        </DockPanel>
+
+        <UniformGrid Grid.Row="1" Columns="4" Rows="1" Margin="0,0,0,16">
+          <Border CornerRadius="8" Padding="14" Background="{StaticResource MetricGreenBrush}" Margin="0,0,6,0">
+            <StackPanel>
+              <TextBlock Text="今日净收益" Foreground="#CCFFFFFF" FontSize="12" />
+              <TextBlock x:Name="TodayNetText" Text="¥0" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
+            </StackPanel>
+          </Border>
+          <Border CornerRadius="8" Padding="14" Background="{StaticResource MetricBlueBrush}" Margin="6,0,6,0">
+            <StackPanel>
+              <TextBlock Text="今日小时收益" Foreground="#CCFFFFFF" FontSize="12" />
+              <TextBlock x:Name="TodayHourlyText" Text="¥0" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
+            </StackPanel>
+          </Border>
+          <Border CornerRadius="8" Padding="14" Background="{StaticResource MetricPinkBrush}" Margin="6,0,6,0">
+            <StackPanel>
+              <TextBlock Text="累计净收益" Foreground="#CCFFFFFF" FontSize="12" />
+              <TextBlock x:Name="TotalNetText" Text="¥0" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
+            </StackPanel>
+          </Border>
+          <Border CornerRadius="8" Padding="14" Background="{StaticResource MetricYellowBrush}" Margin="6,0,0,0">
+            <StackPanel>
+              <TextBlock Text="回本进度" Foreground="#AA271A00" FontSize="12" />
+              <TextBlock x:Name="PaybackText" Text="0%" Foreground="#271A00" FontSize="24" FontWeight="Bold" Margin="0,8,0,0" />
+            </StackPanel>
+          </Border>
+        </UniformGrid>
+
+        <Grid Grid.Row="2">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <Border Grid.Column="0" Style="{StaticResource PanelStyle}" Margin="0,0,16,0">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+
+              <StackPanel Grid.Row="0" Margin="0,0,0,14">
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="8" Height="20" CornerRadius="4" Background="{StaticResource MetricPinkBrush}" Margin="0,0,8,0" />
+                  <TextBlock Text="新增每日记录" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
+                </StackPanel>
+                <TextBlock Text="保存时同步保存当天物价快照" Style="{StaticResource SmallLabelStyle}" Margin="0,6,0,0" />
+              </StackPanel>
+
+              <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="日期" Style="{StaticResource SmallLabelStyle}" />
+                <DatePicker x:Name="DateInput" Grid.Row="1" Grid.Column="0" Margin="0,6,6,10" SelectedDateChanged="DateInput_SelectedDateChanged" />
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="在线小时" Style="{StaticResource SmallLabelStyle}" />
+                <TextBox x:Name="OnlineHoursInput" Grid.Row="1" Grid.Column="1" Margin="6,6,0,10" Style="{StaticResource TextBoxStyle}" Text="5.5" TextChanged="Input_TextChanged" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="现金收入" Style="{StaticResource SmallLabelStyle}" />
+                <TextBox x:Name="CashIncomeInput" Grid.Row="3" Grid.Column="0" Margin="0,6,6,10" Style="{StaticResource TextBoxStyle}" Text="186" TextChanged="Input_TextChanged" />
+
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="物资估值" Style="{StaticResource SmallLabelStyle}" />
+                <TextBox x:Name="MaterialValueInput" Grid.Row="3" Grid.Column="1" Margin="6,6,0,10" Style="{StaticResource TextBoxStyle}" Text="94" TextChanged="Input_TextChanged" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="服务单" Style="{StaticResource SmallLabelStyle}" />
+                <TextBox x:Name="ServiceIncomeInput" Grid.Row="5" Grid.Column="0" Margin="0,6,6,10" Style="{StaticResource TextBoxStyle}" Text="60" TextChanged="Input_TextChanged" />
+
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="支出" Style="{StaticResource SmallLabelStyle}" />
+                <TextBox x:Name="ExpenseInput" Grid.Row="5" Grid.Column="1" Margin="6,6,0,10" Style="{StaticResource TextBoxStyle}" Text="42" TextChanged="Input_TextChanged" />
+
+                <StackPanel Grid.Row="6" Grid.ColumnSpan="2">
+                  <TextBlock Text="备注" Style="{StaticResource SmallLabelStyle}" />
+                  <TextBox x:Name="NoteInput"
+                           Height="82"
+                           Margin="0,6,0,0"
+                           AcceptsReturn="True"
+                           TextWrapping="Wrap"
+                           VerticalScrollBarVisibility="Auto"
+                           Style="{StaticResource TextBoxStyle}"
+                           Text="抓鬼 2 轮，剧情服务 1 单，宝石价格继续跌。" />
+                </StackPanel>
+              </Grid>
+            </Grid>
+          </Border>
+
+          <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
               <RowDefinition Height="*" />
-              <RowDefinition Height="Auto" />
+              <RowDefinition Height="250" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="1*" />
-              <ColumnDefinition Width="1*" />
-              <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="日期" Style="{StaticResource SmallLabelStyle}" />
-            <DatePicker x:Name="DateInput" Grid.Row="1" Grid.Column="0" Margin="0,6,8,10" SelectedDateChanged="DateInput_SelectedDateChanged" />
+            <Border Grid.Row="0" Style="{StaticResource PanelStyle}" Margin="0,0,0,16">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0" Margin="0,0,0,12">
+                  <TextBlock DockPanel.Dock="Left" Text="历史日报" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
+                  <TextBlock DockPanel.Dock="Right" Text="最近记录" Style="{StaticResource SmallLabelStyle}" VerticalAlignment="Center" />
+                </DockPanel>
+                <DataGrid x:Name="RecordsGrid"
+                          Grid.Row="1"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal"
+                          BorderThickness="0"
+                          Background="White"
+                          RowBackground="White"
+                          AlternatingRowBackground="#FBFAFF"
+                          SelectionMode="Single">
+                  <DataGrid.Columns>
+                    <DataGridTextColumn Header="日期" Binding="{Binding DateText}" Width="*" />
+                    <DataGridTextColumn Header="收入" Binding="{Binding IncomeText}" Width="*" />
+                    <DataGridTextColumn Header="支出" Binding="{Binding ExpenseText}" Width="*" />
+                    <DataGridTextColumn Header="净收益" Binding="{Binding NetText}" Width="*" />
+                    <DataGridTextColumn Header="小时收益" Binding="{Binding HourlyText}" Width="*" />
+                    <DataGridTemplateColumn Header="操作" Width="70">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <Button Content="删除" Padding="8,4" Tag="{Binding Id}" Click="DeleteRecord_Click" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Grid>
+            </Border>
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="在线小时" Style="{StaticResource SmallLabelStyle}" />
-            <TextBox x:Name="OnlineHoursInput" Grid.Row="1" Grid.Column="1" Margin="4,6,4,10" Style="{StaticResource TextBoxStyle}" Text="5.5" TextChanged="Input_TextChanged" />
+            <Border Grid.Row="1" Style="{StaticResource PanelStyle}">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0" Margin="0,0,0,10">
+                  <TextBlock DockPanel.Dock="Left" Text="今日物价快照" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
+                  <TextBlock DockPanel.Dock="Right" Text="可编辑" Style="{StaticResource SmallLabelStyle}" VerticalAlignment="Center" />
+                </DockPanel>
 
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="现金收入" Style="{StaticResource SmallLabelStyle}" />
-            <TextBox x:Name="CashIncomeInput" Grid.Row="1" Grid.Column="2" Margin="8,6,0,10" Style="{StaticResource TextBoxStyle}" Text="186" TextChanged="Input_TextChanged" />
-
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="物资估值" Style="{StaticResource SmallLabelStyle}" />
-            <TextBox x:Name="MaterialValueInput" Grid.Row="3" Grid.Column="0" Margin="0,6,8,10" Height="40" VerticalAlignment="Top" Style="{StaticResource TextBoxStyle}" Text="94" TextChanged="Input_TextChanged" />
-
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="服务单" Style="{StaticResource SmallLabelStyle}" />
-            <TextBox x:Name="ServiceIncomeInput" Grid.Row="3" Grid.Column="1" Margin="4,6,4,10" Height="40" VerticalAlignment="Top" Style="{StaticResource TextBoxStyle}" Text="60" TextChanged="Input_TextChanged" />
-
-            <TextBlock Grid.Row="2" Grid.Column="2" Text="支出" Style="{StaticResource SmallLabelStyle}" />
-            <TextBox x:Name="ExpenseInput" Grid.Row="3" Grid.Column="2" Margin="8,6,0,10" Height="40" VerticalAlignment="Top" Style="{StaticResource TextBoxStyle}" Text="42" TextChanged="Input_TextChanged" />
-
-            <StackPanel Grid.Row="4" Grid.ColumnSpan="3">
-              <TextBlock Text="备注" Style="{StaticResource SmallLabelStyle}" />
-              <TextBox x:Name="NoteInput"
-                       Height="82"
-                       Margin="0,6,0,0"
-                       AcceptsReturn="True"
-                       TextWrapping="Wrap"
-                       VerticalScrollBarVisibility="Auto"
-                       Style="{StaticResource TextBoxStyle}"
-                       Text="适合双屏时一边游戏一边快速记录。" />
-            </StackPanel>
+                <UniformGrid Grid.Row="1" Columns="3" Rows="3">
+                  <Border CornerRadius="8" Padding="9" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8">
+                    <StackPanel><TextBlock Text="宝石" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="GemInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8">
+                    <StackPanel><TextBlock Text="低兽决" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="BeastBookInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8">
+                    <StackPanel><TextBlock Text="五宝" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FiveTreasureInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8">
+                    <StackPanel><TextBlock Text="牌子" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="TokenInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8">
+                    <StackPanel><TextBlock Text="环装" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="EquipmentInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8">
+                    <StackPanel><TextBlock Text="临时符" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="CharmInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,0">
+                    <StackPanel><TextBlock Text="花卉" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FlowerInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,0">
+                    <StackPanel><TextBlock Text="乐器" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="InstrumentInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                  <Border CornerRadius="8" Padding="9" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,0">
+                    <StackPanel><TextBlock Text="剧情服务" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="StoryServiceInput" Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0" /></StackPanel>
+                  </Border>
+                </UniformGrid>
+              </Grid>
+            </Border>
           </Grid>
         </Grid>
-      </Border>
 
-      <Border Grid.Column="1" Style="{StaticResource PanelStyle}" Margin="8,0,0,0">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="240" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-
-          <DockPanel Grid.Row="0" Margin="0,0,0,16">
-            <StackPanel DockPanel.Dock="Left">
-              <StackPanel Orientation="Horizontal">
-                <Border Width="8" Height="20" CornerRadius="4" Background="{StaticResource MetricPinkBrush}" Margin="0,0,8,0" />
-                <TextBlock Text="记录明细与物价" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
-              </StackPanel>
-              <TextBlock x:Name="ServerSummaryText" Text="右侧集中看历史和市场变化" Style="{StaticResource SmallLabelStyle}" Margin="0,6,0,0" />
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-              <Button Content="导入"
-                      Style="{StaticResource SecondaryButtonStyle}"
-                      Margin="0,0,8,0"
-                      Click="Import_Click" />
-              <Button Content="导出 JSON"
-                      Style="{StaticResource SecondaryButtonStyle}"
-                      Click="Export_Click" />
-            </StackPanel>
-          </DockPanel>
-
-          <DataGrid x:Name="RecordsGrid"
-                    Grid.Row="1"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="False"
-                    HeadersVisibility="Column"
-                    GridLinesVisibility="Horizontal"
-                    BorderThickness="0"
-                    Background="White"
-                    RowBackground="White"
-                    AlternatingRowBackground="#FBFAFF"
-                    SelectionMode="Single">
-            <DataGrid.Columns>
-              <DataGridTextColumn Header="日期" Binding="{Binding DateText}" Width="*" />
-              <DataGridTextColumn Header="收入" Binding="{Binding IncomeText}" Width="*" />
-              <DataGridTextColumn Header="支出" Binding="{Binding ExpenseText}" Width="*" />
-              <DataGridTextColumn Header="净收益" Binding="{Binding NetText}" Width="*" />
-              <DataGridTextColumn Header="小时收益" Binding="{Binding HourlyText}" Width="*" />
-              <DataGridTemplateColumn Header="操作" Width="70">
-                <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                    <Button Content="删除"
-                            Padding="8,4"
-                            Tag="{Binding Id}"
-                            Click="DeleteRecord_Click" />
-                  </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-              </DataGridTemplateColumn>
-            </DataGrid.Columns>
-          </DataGrid>
-
-          <TextBlock Grid.Row="2" Text="今日物价快照" FontWeight="Bold" FontSize="16" Margin="0,18,0,10" />
-
-          <UniformGrid Grid.Row="3" Columns="3" Rows="3">
-            <Border CornerRadius="8" Padding="12" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8">
-              <StackPanel><TextBlock Text="宝石" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="GemInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8">
-              <StackPanel><TextBlock Text="低兽决" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="BeastBookInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8">
-              <StackPanel><TextBlock Text="五宝" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FiveTreasureInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,8">
-              <StackPanel><TextBlock Text="牌子" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="TokenInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,8">
-              <StackPanel><TextBlock Text="环装" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="EquipmentInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,8">
-              <StackPanel><TextBlock Text="临时符" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="CharmInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#FFF9DF" BorderBrush="#FFD43B" BorderThickness="5,1,1,1" Margin="0,0,6,0">
-              <StackPanel><TextBlock Text="花卉" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="FlowerInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#F0FFFB" BorderBrush="#16B8A6" BorderThickness="5,1,1,1" Margin="3,0,3,0">
-              <StackPanel><TextBlock Text="乐器" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="InstrumentInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-            <Border CornerRadius="8" Padding="12" Background="#F6F2FF" BorderBrush="#7C5CFF" BorderThickness="5,1,1,1" Margin="6,0,0,0">
-              <StackPanel><TextBlock Text="剧情服务" Style="{StaticResource SmallLabelStyle}" /><TextBox x:Name="StoryServiceInput" Style="{StaticResource TextBoxStyle}" Margin="0,6,0,0" /></StackPanel>
-            </Border>
-          </UniformGrid>
-
-          <TextBlock Grid.Row="4"
-                     x:Name="DataPathText"
-                     Style="{StaticResource SmallLabelStyle}"
-                     Margin="0,14,0,0"
-                     TextTrimming="CharacterEllipsis" />
-        </Grid>
-      </Border>
+        <TextBlock Grid.Row="3"
+                   x:Name="DataPathText"
+                   Style="{StaticResource SmallLabelStyle}"
+                   Margin="0,14,0,0"
+                   TextTrimming="CharacterEllipsis" />
+      </Grid>
     </Grid>
   </Grid>
 </Window>
